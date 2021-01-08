@@ -3,7 +3,7 @@ import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 import { of } from "rxjs";
 import { toArray } from "rxjs/operators";
-import App from "./App";
+import App, { allSensors$ } from "./App";
 import Sensor from './components/Sensor';
 
 let container = null;
@@ -42,6 +42,14 @@ it('should insert numbers in observables', done => {
     done();
   })
 })
+
+it('should stream add array with data correctly', () => {
+  const data = ['some data'];
+  expect(allSensors$.pipe(toArray()).subscribe((num) => {
+    expect(num).toEqual(data);
+    done();
+  }))
+});
 
 it('should not sensors render', () => {
   act(() => {
